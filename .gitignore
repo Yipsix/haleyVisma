@@ -1,0 +1,4 @@
+.vscode/*
+picturesTraining/*.jpg
+db.persons
+__pycache__/*
