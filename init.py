@@ -3,6 +3,7 @@ import cv2
 import pyttsx3
 import time
 import data
+import ai
 
 
 print('loads trained data')
@@ -28,6 +29,8 @@ im = cap.read()[1] #because reasons
 r = cv2.selectROI(im)
 process_this_frame = True
 
+frameCount = 0
+
 while (True):
 
     ret, frame = cap.read()
@@ -38,13 +41,13 @@ while (True):
     smallImg = cv2.resize(crop_img, (0,0), fx=0.25, fy=0.25) 
     rgb_small_frame = smallImg[:, :, ::-1]
     # Only process every other frame of video to save time
-    if process_this_frame:
+    if frameCount % 4 = 0:
+        frameCount = 0
         # Find all the faces and face encodings in the current frame of video
         face_locations = face_recognition.face_locations(rgb_small_frame)
         face_encodings = face_recognition.face_encodings(
             rgb_small_frame, face_locations)
 
-        face_names = []
         for face_encoding in face_encodings:
             # See if the face is a match for the known face(s)
             matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
@@ -52,24 +55,14 @@ while (True):
             if True in matches:
                 first_match_index = matches.index(True)
                 name = known_face_names[first_match_index]
-                face_names.append(name)
-                print(name[0], 'detected')
+                ai.addPerson(name)
             else:
-                print('unknown person detected')
+                ai.foundUnknownPerson()
 
-    process_this_frame = not process_this_frame
+    frameCount = frameCount + 1
 
     big = cv2.resize(crop_img, (0,0), fx=5, fy=5) 
     cv2.imshow('Video', big)
-
-    now = time.time()
-
-    for name in face_names[:]:
-        if(name[2] is None or name[2] + 10000 < now):
-            name[2] = now
-            sayName = "Hello ", name[0], " i hope you will have a pleasant day"
-            engine.say(sayName)
-            engine.runAndWait()
 
     # Hit 'q' on the keyboard to quit!
     if cv2.waitKey(1) & 0xFF == ord('q'):
