@@ -1,0 +1,24 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "private": true,
+  "scripts": {
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "@expo/samples": "2.1.1",
+    "expo": "^27.0.1",
+    "griddle-react": "^0.8.2",
+    "react": "16.3.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
+    "react-navigation": "1.5.11"
+  },
+  "devDependencies": {
+    "jest-expo": "^27.0.0",
+    "babel-core": "^6.10.4",
+    "babel-preset-react-native": "^1.9.0",
+    "babel-register": "^6.9.0"
+  }
+}
